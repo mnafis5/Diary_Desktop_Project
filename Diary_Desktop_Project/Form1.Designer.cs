@@ -29,28 +29,31 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Diaries = new System.Windows.Forms.GroupBox();
+            this.searchButton = new System.Windows.Forms.Button();
+            this.ListSearchBox = new System.Windows.Forms.TextBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.ButtonControl = new System.Windows.Forms.GroupBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Diaries = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.ListSearchBox = new System.Windows.Forms.TextBox();
-            this.searchButton = new System.Windows.Forms.Button();
             this.textEditor = new System.Windows.Forms.GroupBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.bold = new System.Windows.Forms.Button();
-            this.italic = new System.Windows.Forms.Button();
-            this.underline = new System.Windows.Forms.Button();
+            this.bold = new System.Windows.Forms.CheckBox();
+            this.italic = new System.Windows.Forms.CheckBox();
+            this.underline = new System.Windows.Forms.CheckBox();
+            this.View = new System.Windows.Forms.GroupBox();
+            this.Details = new System.Windows.Forms.GroupBox();
+            this.contentDiary = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.Diaries.SuspendLayout();
             this.ButtonControl.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.Diaries.SuspendLayout();
             this.textEditor.SuspendLayout();
+            this.View.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -67,10 +70,56 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.AutoScroll = true;
+            this.splitContainer1.Panel2.Controls.Add(this.Details);
+            this.splitContainer1.Panel2.Controls.Add(this.View);
             this.splitContainer1.Panel2.Controls.Add(this.textEditor);
             this.splitContainer1.Size = new System.Drawing.Size(1500, 798);
             this.splitContainer1.SplitterDistance = 500;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // Diaries
+            // 
+            this.Diaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Diaries.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Diaries.Controls.Add(this.searchButton);
+            this.Diaries.Controls.Add(this.ListSearchBox);
+            this.Diaries.Controls.Add(this.listBox1);
+            this.Diaries.Location = new System.Drawing.Point(3, 45);
+            this.Diaries.Name = "Diaries";
+            this.Diaries.Size = new System.Drawing.Size(494, 756);
+            this.Diaries.TabIndex = 1;
+            this.Diaries.TabStop = false;
+            this.Diaries.Text = "List of Diaries";
+            // 
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(259, 20);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(56, 20);
+            this.searchButton.TabIndex = 2;
+            this.searchButton.Text = "Search";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // ListSearchBox
+            // 
+            this.ListSearchBox.Location = new System.Drawing.Point(16, 20);
+            this.ListSearchBox.Name = "ListSearchBox";
+            this.ListSearchBox.Size = new System.Drawing.Size(237, 20);
+            this.ListSearchBox.TabIndex = 1;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(16, 46);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(339, 693);
+            this.listBox1.TabIndex = 0;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // ButtonControl
             // 
@@ -90,7 +139,6 @@
             this.menuStrip1.BackColor = System.Drawing.Color.BlueViolet;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem,
-            this.modifyToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(3, 18);
             this.menuStrip1.Name = "menuStrip1";
@@ -103,15 +151,9 @@
             this.addToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.addToolStripMenuItem.Text = "Add";
-            // 
-            // modifyToolStripMenuItem
-            // 
-            this.modifyToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.modifyToolStripMenuItem.Name = "modifyToolStripMenuItem";
-            this.modifyToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.modifyToolStripMenuItem.Text = "Modify";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
+            this.addToolStripMenuItem.Text = "Add/Modify";
+            this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
@@ -119,49 +161,7 @@
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.deleteToolStripMenuItem.Text = "Delete";
-            // 
-            // Diaries
-            // 
-            this.Diaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Diaries.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Diaries.Controls.Add(this.searchButton);
-            this.Diaries.Controls.Add(this.ListSearchBox);
-            this.Diaries.Controls.Add(this.listBox1);
-            this.Diaries.Location = new System.Drawing.Point(3, 45);
-            this.Diaries.Name = "Diaries";
-            this.Diaries.Size = new System.Drawing.Size(494, 756);
-            this.Diaries.TabIndex = 1;
-            this.Diaries.TabStop = false;
-            this.Diaries.Text = "List of Diaries";
-            // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(16, 46);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(339, 693);
-            this.listBox1.TabIndex = 0;
-            // 
-            // ListSearchBox
-            // 
-            this.ListSearchBox.Location = new System.Drawing.Point(16, 20);
-            this.ListSearchBox.Name = "ListSearchBox";
-            this.ListSearchBox.Size = new System.Drawing.Size(237, 20);
-            this.ListSearchBox.TabIndex = 1;
-            // 
-            // searchButton
-            // 
-            this.searchButton.Location = new System.Drawing.Point(259, 20);
-            this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(56, 20);
-            this.searchButton.TabIndex = 2;
-            this.searchButton.Text = "Search";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // textEditor
             // 
@@ -191,33 +191,68 @@
             // 
             // bold
             // 
-            this.bold.Location = new System.Drawing.Point(9, 49);
+            this.bold.AutoSize = true;
+            this.bold.Location = new System.Drawing.Point(9, 52);
             this.bold.Name = "bold";
-            this.bold.Size = new System.Drawing.Size(41, 20);
+            this.bold.Size = new System.Drawing.Size(47, 17);
             this.bold.TabIndex = 1;
             this.bold.Text = "Bold";
             this.bold.UseVisualStyleBackColor = true;
-            this.bold.Click += new System.EventHandler(this.bold_Click);
+            this.bold.CheckedChanged += new System.EventHandler(this.bold_CheckedChanged);
             // 
             // italic
             // 
-            this.italic.Location = new System.Drawing.Point(56, 49);
+            this.italic.AutoSize = true;
+            this.italic.Location = new System.Drawing.Point(62, 52);
             this.italic.Name = "italic";
-            this.italic.Size = new System.Drawing.Size(41, 20);
+            this.italic.Size = new System.Drawing.Size(48, 17);
             this.italic.TabIndex = 2;
             this.italic.Text = "Italic";
             this.italic.UseVisualStyleBackColor = true;
-            this.italic.Click += new System.EventHandler(this.italic_Click);
+            this.italic.CheckedChanged += new System.EventHandler(this.italic_CheckedChanged);
             // 
             // underline
             // 
-            this.underline.Location = new System.Drawing.Point(103, 49);
+            this.underline.AutoSize = true;
+            this.underline.Location = new System.Drawing.Point(116, 52);
             this.underline.Name = "underline";
-            this.underline.Size = new System.Drawing.Size(63, 20);
+            this.underline.Size = new System.Drawing.Size(71, 17);
             this.underline.TabIndex = 3;
             this.underline.Text = "Underline";
             this.underline.UseVisualStyleBackColor = true;
-            this.underline.Click += new System.EventHandler(this.underline_Click);
+            this.underline.CheckedChanged += new System.EventHandler(this.underline_CheckedChanged);
+            // 
+            // View
+            // 
+            this.View.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.View.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.View.Controls.Add(this.contentDiary);
+            this.View.Location = new System.Drawing.Point(486, 3);
+            this.View.Name = "View";
+            this.View.Size = new System.Drawing.Size(507, 543);
+            this.View.TabIndex = 1;
+            this.View.TabStop = false;
+            this.View.Text = "Inspector";
+            // 
+            // Details
+            // 
+            this.Details.Location = new System.Drawing.Point(486, 555);
+            this.Details.Name = "Details";
+            this.Details.Size = new System.Drawing.Size(506, 162);
+            this.Details.TabIndex = 2;
+            this.Details.TabStop = false;
+            this.Details.Text = "Details";
+            // 
+            // contentDiary
+            // 
+            this.contentDiary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.contentDiary.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.contentDiary.Location = new System.Drawing.Point(19, 28);
+            this.contentDiary.Name = "contentDiary";
+            this.contentDiary.Size = new System.Drawing.Size(487, 500);
+            this.contentDiary.TabIndex = 0;
             // 
             // Form1
             // 
@@ -234,13 +269,15 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.Diaries.ResumeLayout(false);
+            this.Diaries.PerformLayout();
             this.ButtonControl.ResumeLayout(false);
             this.ButtonControl.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.Diaries.ResumeLayout(false);
-            this.Diaries.PerformLayout();
             this.textEditor.ResumeLayout(false);
+            this.textEditor.PerformLayout();
+            this.View.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -251,7 +288,6 @@
         private System.Windows.Forms.GroupBox ButtonControl;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.GroupBox Diaries;
         private System.Windows.Forms.ListBox listBox1;
@@ -259,9 +295,12 @@
         private System.Windows.Forms.TextBox ListSearchBox;
         private System.Windows.Forms.GroupBox textEditor;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button underline;
-        private System.Windows.Forms.Button italic;
-        private System.Windows.Forms.Button bold;
+        private System.Windows.Forms.CheckBox underline;
+        private System.Windows.Forms.CheckBox italic;
+        private System.Windows.Forms.CheckBox bold;
+        private System.Windows.Forms.GroupBox View;
+        private System.Windows.Forms.GroupBox Details;
+        private System.Windows.Forms.Label contentDiary;
     }
 }
 

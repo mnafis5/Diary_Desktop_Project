@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Diary_Desktop_Project
 {
     public partial class Form1 : Form
     {
+        private string folderpath = "C:\\Users\\User\\source\\repos\\Diary_Desktop_Project\\data";
         public Form1()
         {
             InitializeComponent();
@@ -19,9 +21,7 @@ namespace Diary_Desktop_Project
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listBox1.Items.Add("Item 3");
-            listBox1.Items.Add("Hangout");
-            listBox1.Items.Add("riding");
+            PopulateFileList(folderpath);
 
         }
 
@@ -38,23 +38,36 @@ namespace Diary_Desktop_Project
             }
         }
 
-        private void bold_Click(object sender, EventArgs e)
+        private void bold_CheckedChanged(object sender, EventArgs e)
         {
-            // Set the font style of the selected text to bold
-            if (richTextBox1.SelectionFont != null)
+            if(bold.Checked == true)
             {
-                richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
-                    richTextBox1.SelectionFont.Style | FontStyle.Bold);
+                if (richTextBox1.SelectionFont != null)
+                {
+                    richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
+                        richTextBox1.SelectionFont.Style | FontStyle.Bold);
+                }
+            }
+            else
+            {
+                if (richTextBox1.SelectionFont != null)
+                {
+                    richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
+                        richTextBox1.SelectionFont.Style & ~FontStyle.Bold);
+                }
             }
         }
 
-        private void italic_Click(object sender, EventArgs e)
+        private void italic_CheckedChanged(object sender, EventArgs e)
         {
-            // Set the font style of the selected text to italic
-            if (richTextBox1.SelectionFont != null)
+            if(italic.Checked == true)
             {
-                richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
-                    richTextBox1.SelectionFont.Style | FontStyle.Italic);
+                // Set the font style of the selected text to italic
+                if (richTextBox1.SelectionFont != null)
+                {
+                    richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
+                        richTextBox1.SelectionFont.Style | FontStyle.Italic);
+                }
             }
             else
             {
@@ -66,14 +79,103 @@ namespace Diary_Desktop_Project
             }
         }
 
-        private void underline_Click(object sender, EventArgs e)
+        private void underline_CheckedChanged(object sender, EventArgs e)
         {
-            // Set the font style of the selected text to underline
-            if (richTextBox1.SelectionFont != null)
+            if(underline.Checked == true)
             {
-                richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
-                    richTextBox1.SelectionFont.Style | FontStyle.Underline);
+                // Set the font style of the selected text to underline
+                if (richTextBox1.SelectionFont != null)
+                {
+                    richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
+                        richTextBox1.SelectionFont.Style | FontStyle.Underline);
+                }
+            }
+            else
+            {
+                if (richTextBox1.SelectionFont != null)
+                {
+                    richTextBox1.SelectionFont = new Font(richTextBox1.SelectionFont,
+                        richTextBox1.SelectionFont.Style & ~FontStyle.Underline);
+                }
             }
         }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Files|*.txt";
+            saveFileDialog.Title = "Save File As...";
+            saveFileDialog.InitialDirectory = folderpath;
+            if(saveFileDialog.ShowDialog() == DialogResult.OK) 
+            {
+                using (StreamWriter write = new StreamWriter(saveFileDialog.FileName))
+                {
+                    if(richTextBox1!= null)
+                    {
+                        write.Write(richTextBox1.Text);
+                        richTextBox1.Clear();
+                        contentDiary.Text = "";
+                        PopulateFileList(folderpath);
+                    }
+                }
+            }
+        }
+
+        private void PopulateFileList(string folderPath)
+        {
+            //clear the listbox control
+            listBox1.Items.Clear();
+
+            //get the files in the directory
+            string[] files = Directory.GetFiles(folderPath);
+
+            //loop
+            foreach (string file in files)
+            {
+                // Add the file name to the ListBox control
+                string explodedFile = Path.GetFileName(file);
+                listBox1.Items.Add(explodedFile);
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Get the selected file name from the listbox control
+            string file = (string)listBox1.SelectedItem;
+
+            // Load the contents of the file into a string
+            string filePath = Path.Combine(folderpath, file); // replace with the path to your directory
+            string text = File.ReadAllText(filePath);
+
+            // Display the contents of the file in the richtextbox control
+            if (File.Exists(filePath))
+            {
+            richTextBox1.Text = text;
+            contentDiary.Text = text;
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Get the selected file path from the list box
+            string filepath = listBox1.SelectedItem.ToString();
+            filepath = Path.Combine(folderpath, filepath);
+
+            // Delete the selected file
+            if(File.Exists(filepath))
+            {
+                File.Delete(filepath);
+                richTextBox1.Clear();
+                contentDiary.Text = "";
+                MessageBox.Show("File deleted successfully");
+                PopulateFileList(folderpath);
+            }
+            else
+            {
+                MessageBox.Show("the file is not found");
+            }
+        }
+
+       
     }
 }
