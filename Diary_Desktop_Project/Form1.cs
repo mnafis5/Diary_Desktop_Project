@@ -11,9 +11,9 @@ using System.IO;
 
 namespace Diary_Desktop_Project
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form   
     {
-        private string folderpath = "C:\\Users\\User\\source\\repos\\Diary_Desktop_Project\\data";
+        private string folderpath = "C:\\Users\\HP\\source\\repos\\Diary_Desktop_Project\\data";
         public Form1()
         {
             InitializeComponent();
@@ -102,22 +102,27 @@ namespace Diary_Desktop_Project
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text Files|*.txt";
-            saveFileDialog.Title = "Save File As...";
-            saveFileDialog.InitialDirectory = folderpath;
-            if(saveFileDialog.ShowDialog() == DialogResult.OK) 
+            if (richTextBox1.Text != "")
             {
-                using (StreamWriter write = new StreamWriter(saveFileDialog.FileName))
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text Files|*.txt";
+                saveFileDialog.Title = "Save File As...";
+                saveFileDialog.InitialDirectory = folderpath;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if(richTextBox1!= null)
+                    using (StreamWriter write = new StreamWriter(saveFileDialog.FileName))
                     {
+
                         write.Write(richTextBox1.Text);
                         richTextBox1.Clear();
-                        contentDiary.Text = "";
                         PopulateFileList(folderpath);
+                        richTextBox1.ReadOnly = false;
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("No text");
             }
         }
 
@@ -140,35 +145,73 @@ namespace Diary_Desktop_Project
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Get the selected file name from the listbox control
-            string file = (string)listBox1.SelectedItem;
-
-            // Load the contents of the file into a string
-            string filePath = Path.Combine(folderpath, file); // replace with the path to your directory
-            string text = File.ReadAllText(filePath);
-
-            // Display the contents of the file in the richtextbox control
-            if (File.Exists(filePath))
+            try
             {
-            richTextBox1.Text = text;
-            contentDiary.Text = text;
+                //Get the selected file name from the listbox control
+                string file = (string)listBox1.SelectedItem;
+
+                // Load the contents of the file into a string
+                string filePath = Path.Combine(folderpath, file); // replace with the path to your directory
+                string text = File.ReadAllText(filePath);
+
+                // Display the contents of the file in the richtextbox control
+                if (File.Exists(filePath))
+                {
+                    richTextBox1.Text = text;
+                    richTextBox1.ReadOnly = true;
+                }
             }
+            catch 
+            {
+                MessageBox.Show("Empty");
+            }
+           
         }
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(listBox1.Items.Count <= 0)
+            {
+                MessageBox.Show("No files detected");
+            }
+            else
+            {
+            button1.Visible = true;
+            button2.Visible = true;
+            label1.Visible = true;
+
+            }
+        }
+
+        private void modifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.ReadOnly = false;
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
+            this.Refresh();
+            richTextBox1.ReadOnly = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
             // Get the selected file path from the list box
             string filepath = listBox1.SelectedItem.ToString();
             filepath = Path.Combine(folderpath, filepath);
 
             // Delete the selected file
-            if(File.Exists(filepath))
+            if (File.Exists(filepath))
             {
                 File.Delete(filepath);
                 richTextBox1.Clear();
-                contentDiary.Text = "";
                 MessageBox.Show("File deleted successfully");
                 PopulateFileList(folderpath);
+                label1.Visible = false;
+                button1.Visible = false;
+                button2.Visible = false;
+                richTextBox1.ReadOnly = false;
             }
             else
             {
@@ -176,6 +219,25 @@ namespace Diary_Desktop_Project
             }
         }
 
-       
+        private void button1_Click(object sender, EventArgs e)
+        {
+            label1.Visible=false;
+            button1.Visible=false;
+            button2.Visible=false;
+
+        }
+
+        private void fontLabel_Click(object sender, EventArgs e)
+        {
+            DialogResult result = fontDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                // User clicked OK, so get the selected font
+                Font selectedFont = fontDialog1.Font;
+
+                // Do something with the selected font, such as setting the font of a label control
+                richTextBox1.Font = selectedFont;
+            }
+        }
     }
 }

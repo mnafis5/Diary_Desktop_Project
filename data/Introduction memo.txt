@@ -1,0 +1,5 @@
+It's my first memo in this app.
+
+March 10,2023
+
+	I have been building this app-Diary App- recently. Anyone who wants to join me to develop this, I put the repo on my github account https://github.com/mnafis5/Diary_Desktop_Project .Check it and contribute! I'd like to see your interesting work.
